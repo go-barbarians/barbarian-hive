@@ -1,0 +1,24 @@
+<configuration>
+<property>
+<name>yarn.application.classpath</name>
+<value>/tez/conf,/hadoop/share/hadoop/common/*,/hadoop/share/hadoop/common/lib/*,/hadoop/etc/hadoop,/tez/lib/*,/hadoop/share/hadoop/yarn/*,/hadoop/share/hadoop/yarn/lib/*</value>
+</property>
+<property>
+  <name>slider.zookeeper.quorum</name>
+  <value>zzzZK_CONNECTzzz</value>
+</property>
+
+<property>
+  <name>yarn.resourcemanager.address</name>
+  <value>zzzRM_CONNECTzzz:8050</value>
+</property>
+<property>
+  <name>yarn.resourcemanager.scheduler.address</name>
+  <value>zzzRM_CONNECTzzz:8030</value>
+</property>
+<property>
+  <name>fs.defaultFS</name>
+  <value>igfs://igfs@zzzIGFS_CONNECTzzz/</value>
+</property>
+
+</configuration>
