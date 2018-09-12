@@ -1,0 +1,136 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: hs2-fe
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-internal: 0.0.0.0/0
+spec:
+  selector:
+    app: hiveserver2
+  ports:
+  - name: server
+    protocol: TCP
+    port: 10000
+    targetPort: 10000
+  - name: webui-address
+    protocol: TCP
+    port: 10002
+    targetPort: 10002
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hs2-cs
+  labels:
+    app: hs2
+spec:
+  ports:
+  - port: 10000
+    name: server
+  - port: 10002
+    name: webui-address
+  clusterIP: None
+  selector:
+    app: hs2
+---
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  name: hs2-pdb
+spec:
+  selector:
+    matchLabels:
+      app: hs2
+  minAvailable: 1
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: hs2
+spec:
+  selector:
+    matchLabels:
+      app: hs2
+  serviceName: hs2-cs
+  replicas: 1
+  updateStrategy:
+    type: RollingUpdate
+  podManagementPolicy: Parallel
+  template:
+    metadata:
+      labels:
+        app: hs2
+    spec:
+      containers:
+      - image: 535272059665.dkr.ecr.eu-west-1.amazonaws.com/hiveserver2
+        name: hs2
+        resources:
+          requests:
+            memory: "3Gi"
+            cpu: "2"
+        volumeMounts:
+        - mountPath: /hadoop/etc/hadoop
+          name: yarn-cfg-volume
+        - name: hive-cfg-volume
+          mountPath: /hive/conf
+        - name: tez-cfg-volume
+          mountPath: /tez/conf
+        - name: slider-cfg-volume
+          mountPath: /slider/conf
+        ports:
+        - containerPort: 10000
+          name: server
+        - containerPort: 10002
+          name: webui-address
+        command:
+        - sh
+        - -c
+        - "/hive/bin/start-hiveserver2 \
+          --zk_connect=zk-cs.default.svc.cluster.local:2181 \
+          --rm_connect=yarn-rm-cs.default.svc.cluster.local \
+          --igfs_connect=ignite-cs.default.svc.cluster.local \
+          --conf_dir=/hive/conf \
+          --webui_port=8042 \
+          --server_port=45454 \
+          --log_level=INFO \
+          --db_uri=jdbc:mysql://XXXX:3306/hive_metastore \
+          --db_username=XXXXXXXX \
+          --db_password=XXXXXXXX"
+      initContainers:
+      - name: start-hive-llap
+        image: 535272059665.dkr.ecr.eu-west-1.amazonaws.com/hiveserver2
+        command:
+        - sh
+        - -c 
+        - "HADOOP_CLASSPATH=/hadoop/etc/hadoop:/hadoop/share/hadoop/yarn/*:/hadoop/share/hadoop/yarn/lib/*:/tez/conf \
+          /hive/bin/start-llap-daemon \
+          --zk_connect=zk-cs.default.svc.cluster.local:2181 \
+          --rm_connect=yarn-rm-cs.default.svc.cluster.local \
+          --igfs_connect=ignite-cs.default.svc.cluster.local \
+          --conf_dir=/hive/conf \
+          --webui_port=8042 \
+          --server_port=45454 \
+          --log_level=INFO \
+          --db_uri=jdbc:mysql://XXXXX:3306/hive_metastore \
+          --db_username=XXXXXXXXX \
+          --db_password=XXXXXXXXX \
+          --llap_daemon_count=4"
+        volumeMounts:
+        - name: hive-cfg-volume
+          mountPath: "/hive/conf"
+        - name: tez-cfg-volume
+          mountPath: "/tez/conf"
+        - name: yarn-cfg-volume
+          mountPath: "/hadoop/etc/hadoop"
+        - name: slider-cfg-volume
+          mountPath: "/slider/conf"
+      volumes:
+      - name: yarn-cfg-volume
+        emptyDir: {}
+      - name: hive-cfg-volume
+        emptyDir: {}
+      - name: tez-cfg-volume
+        emptyDir: {}
+      - name: slider-cfg-volume
+        emptyDir: {}

@@ -29,7 +29,7 @@ The latest release of the Hive Docker image is based on the following Apache Fou
 
 This image is designed to be run as a part of the Barbarian Hadoop distribution - a Kubernetes based platform for data processing at scale, founded on free software developed by the [Apache Software Foundation](https://www.apache.org/).
 
-Launching this image is done using [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) and the provided [yaml](http://yaml.org) configuration file. Successful deployment depends on:
+Launching this image is done using [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) and the provided [yaml](http://yaml.org) configuration file (see in the directory ./yaml). Successful deployment depends on:
 - A running Kubernetes cluster with sufficient resource to deploy the full platform
 - A running ZooKeeper ensemble
 - A running and configured MySQL database server (automation, move to PostgreSQL and automated initialization/upgrade will come)
@@ -38,6 +38,10 @@ Launching this image is done using [kubectl](https://kubernetes.io/docs/tasks/to
 - An (internal, firewalled) webserver that hosts the access keys
 - A running YARN ResourceManager
 - A running cluster of YARN NodeManagers
+
+Launch a 4-node LLAP cluster with ```kubectl create -f yaml/hiveserver2```
+
+*Just be sure to edit the file to add database connection info first...*
 
 ## Features
 
