@@ -22,7 +22,7 @@ The latest release of the Hive Docker image is based on the following Apache Fou
 
 ## Building
 
-Just run the buildscript @ $WORKING_DIR/build-image.sh
+Just run the buildscript @ ```$WORKING_DIR/build-image.sh```
 
 ## Running
 

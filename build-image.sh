@@ -61,8 +61,13 @@ popd
 # build ignite
 # nb. ignite is a prereq for tez because need to bundle ignite JARs in tez application tarball
 # nb. ignite-mesos module breaks the build and must be commented in pom.xml
+# nb. two patches need to be applied
 git clone git@github.com:go-barbarians/badh-ignite.git
 pushd ./badh-ignite
+#wget https://issues.apache.org/jira/secure/attachment/12939077/IGNITE-9473.patch
+#wget https://issues.apache.org/jira/secure/attachment/12939078/IGNITE-9504.patch
+#patch -p2 < IGNITE-9473.patch
+#patch -p2 < IGNITE-9504.patch
 git checkout ignite-$IGNITE_BRANCH_VERSION
 mvn clean package install -Prelease -Dignite.edition=hadoop -DskipTests -Dhadoop.version=$HADOOP_VERSION
 cp -R target/release-package-hadoop $WORKING_DIR/$PACKAGING_DIR/ignite
