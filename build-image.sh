@@ -48,6 +48,8 @@ mvn clean package install -Pdist -Pnative -Drequire.snappy -Dbundle.snappy \
 -Dsnappy.lib=/usr/lib/x86_64-linux-gnu -Dopenssl.lib=/usr/lib/x86_64-linux-gnu
 
 cp -R hadoop-dist/target/hadoop-$HADOOP_VERSION $WORKING_DIR/$PACKAGING_DIR/hadoop
+#delete config directory
+rm -rf $WORKING_DIR/$PACKAGING_DIR/hadoop/etc/hadoop
 popd
 
 # build hive
@@ -56,6 +58,8 @@ pushd ./badh-hive
 git checkout branch-$HIVE_BRANCH_VERSION
 mvn clean package install -DskipTests=true -Pdist
 cp -R packaging/target/apache-hive-$HIVE_RELEASE_VERSION-bin/apache-hive-$HIVE_RELEASE_VERSION-bin $WORKING_DIR/$PACKAGING_DIR/hive
+#delete config directory
+rm -rf $WORKING_DIR/$PACKAGING_DIR/hive/conf
 popd
 
 # build ignite
@@ -71,6 +75,8 @@ pushd ./badh-ignite
 git checkout ignite-$IGNITE_BRANCH_VERSION
 mvn clean package install -Prelease -Dignite.edition=hadoop -DskipTests -Dhadoop.version=$HADOOP_VERSION
 cp -R target/release-package-hadoop $WORKING_DIR/$PACKAGING_DIR/ignite
+#delete config directory
+rm -rf $WORKING_DIR/$PACKAGING_DIR/ignite/config
 popd
 
 # build tez
@@ -87,6 +93,8 @@ tar cf tez.tar .
 gzip tez.tar
 mv tez.tar.gz ..
 popd
+#delete config directory
+rm -rf $WORKING_DIR/$PACKAGING_DIR/tez/conf
 popd
 
 # build slider
@@ -99,6 +107,8 @@ export HADOOP_VERSION=2.8.4
 mvn clean package install -DskipTests=true
 mvn site:site site:stage package -DskipTests=true
 cp -R slider-assembly/target/slider-0.92.0-incubating-all/slider-0.92.0-incubating $WORKING_DIR/$PACKAGING_DIR/slider
+#delete config directory
+rm -rf $WORKING_DIR/$PACKAGING_DIR/slider/conf
 popd
 popd #back to working directory
 
