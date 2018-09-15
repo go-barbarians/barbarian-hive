@@ -13,6 +13,7 @@ ENV HS2_USER=hive \
     HIVE_CLASSPATH=$HADOOP_CLASSPATH \
     SLIDER_CONF_DIR=/slider/conf \
     SLIDER_HOME=/slider
+    CONTROL_HOME=/control
 
 RUN apt-get update && \
     apt-get install -y openjdk-8-jre-headless
@@ -30,6 +31,7 @@ RUN apt-get update && \
 
 RUN ln -s /usr/bin/python2.6 /usr/bin/python
 
+COPY ./control /control
 COPY ./hadoop /hadoop
 COPY ./hive /hive
 COPY ./tez /tez

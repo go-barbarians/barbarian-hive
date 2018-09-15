@@ -12,7 +12,6 @@ The latest release of the Hive Docker image is based on the following Apache Fou
 - Apache Ignite 2.6 (patched)
 - Apache Tez 0.9.2
 - Apache Slider 0.6
-- Apache Zookeeper
 
 ## Releases
 
@@ -47,7 +46,11 @@ Launch a 4-node LLAP cluster with ```kubectl create -f yaml/hiveserver2```
 
 The image includes support for the following Hive features:
 - An initpod to launch Hive LLAP daemons (low latency analytics processing aka live long and process) on the cluster
+- An initpod to wait for the Hive LLAPd service to come up
 - Apache Tez execution engine
+
+## Still to do
+
 - Support for dedicated Metastore and Apache Ranger will follow
 
 

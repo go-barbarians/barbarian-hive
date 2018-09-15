@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-status = INFO
+status = zzzLOG_LEVELzzz
 name = BeelineLog4j2
 packages = org.apache.hadoop.hive.ql.log
 
@@ -37,7 +37,7 @@ loggers = HiveConnection
 
 # HiveConnection logs useful info for dynamic service discovery
 logger.HiveConnection.name = org.apache.hive.jdbc.HiveConnection
-logger.HiveConnection.level = INFO
+logger.HiveConnection.level = zzzLOG_LEVELzzz
 
 # root logger
 rootLogger.level = ${sys:hive.log.level}

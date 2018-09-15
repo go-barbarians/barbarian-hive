@@ -15,16 +15,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-status = INFO
+status = zzzLOG_LEVELzzz
 name = HiveLog4j2
 packages = org.apache.hadoop.hive.ql.log
 
 # list of properties
-property.hive.log.level = INFO
+property.hive.log.level = zzzLOG_LEVELzzz
 property.hive.root.logger = console
-property.hive.log.dir = ${sys:java.io.tmpdir}/${sys:user.name}
+property.hive.log.dir = zzzLOG_DIRzzz
 property.hive.log.file = hive.log
-property.hive.perflogger.log.level = INFO
+property.hive.perflogger.log.level = zzzLOG_LEVELzzz
 
 # list of all appenders
 appenders = console,DRFA
@@ -70,10 +70,10 @@ logger.JPOX.name = JPOX
 logger.JPOX.level = ERROR
 
 logger.AmazonAws.name=com.amazonaws
-logger.AmazonAws.level = INFO
+logger.AmazonAws.level = zzzLOG_LEVELzzz
 
 logger.ApacheHttp.name=org.apache.http
-logger.ApacheHttp.level = INFO
+logger.ApacheHttp.level = zzzLOG_LEVELzzz
 
 logger.PerfLogger.name = org.apache.hadoop.hive.ql.log.PerfLogger
 logger.PerfLogger.level = ${sys:hive.perflogger.log.level}

@@ -86,14 +86,10 @@ spec:
         command:
         - sh
         - -c
-        - "/hive/bin/start-hiveserver2 \
-          --zk_connect=zk-cs.default.svc.cluster.local:2181 \
+        - "/control/start-hiveserver2 \
+          --zk_connect=zk-cs.default.svc.cluster.local \
           --rm_connect=yarn-rm-cs.default.svc.cluster.local \
           --igfs_connect=ignite-cs.default.svc.cluster.local \
-          --conf_dir=/hive/conf \
-          --webui_port=8042 \
-          --server_port=45454 \
-          --log_level=INFO \
           --db_uri=jdbc:mysql://XXXX:3306/hive_metastore \
           --db_username=XXXXXXXX \
           --db_password=XXXXXXXX"
@@ -104,18 +100,30 @@ spec:
         - sh
         - -c 
         - "HADOOP_CLASSPATH=/hadoop/etc/hadoop:/hadoop/share/hadoop/yarn/*:/hadoop/share/hadoop/yarn/lib/*:/tez/conf \
-          /hive/bin/start-llap-daemon \
-          --zk_connect=zk-cs.default.svc.cluster.local:2181 \
+          /control/start-llap \
+          --zk_connect=zk-cs.default.svc.cluster.local \
           --rm_connect=yarn-rm-cs.default.svc.cluster.local \
           --igfs_connect=ignite-cs.default.svc.cluster.local \
-          --conf_dir=/hive/conf \
-          --webui_port=8042 \
-          --server_port=45454 \
-          --log_level=INFO \
           --db_uri=jdbc:mysql://XXXXX:3306/hive_metastore \
           --db_username=XXXXXXXXX \
           --db_password=XXXXXXXXX \
-          --llap_daemon_count=4"
+          --llapd_count=4 \
+          --llapd_ram=1g"
+        volumeMounts:
+        - name: hive-cfg-volume
+          mountPath: "/hive/conf"
+        - name: tez-cfg-volume
+          mountPath: "/tez/conf"
+        - name: yarn-cfg-volume
+          mountPath: "/hadoop/etc/hadoop"
+        - name: slider-cfg-volume
+          mountPath: "/slider/conf"
+      - name: await-llap
+        image: 535272059665.dkr.ecr.eu-west-1.amazonaws.com/hiveserver2
+        command:
+        - sh
+        - -c 
+        - "/control/await-llap"
         volumeMounts:
         - name: hive-cfg-volume
           mountPath: "/hive/conf"

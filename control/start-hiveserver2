@@ -1,0 +1,121 @@
+#!/usr/bin/env bash
+# Copyright 2018 Barbarians.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+#
+# Usage: start-hiveserver2 [OPTIONS]
+# Starts a Hiveserver2 based on the supplied options.
+#     --zk_connect        Kubernetes CNAME for the zookeeper ensemble
+
+#     --rm_connect        Kubernetes CNAME address of the YARN Resource Manger
+
+#     --igfs_connect      Kubernetes CNAME address of the IGFS cluster
+
+#     --db-uri            URI for the Hive Metastore db instance
+
+#     --db-password       Password for the Hive Meteastore db instance
+
+#     --db-username       Username for the hive metastore db instance
+
+#     --log_level         The log level to write logs at. Either FATAL,
+#                         ERROR, WARN, INFO, DEBUG. The default is INFO.
+
+#     --log_dir           The local system directory to write logs to.
+#                         The default is /var/log/hive.
+
+USER=`whoami`
+HOST=`hostname -s`
+DOMAIN=`hostname -d`
+LOG_LEVEL=INFO
+LOG_DIR=/var/log/hive
+
+function print_usage() {
+echo "\
+Usage: start-hiveserver2 [OPTIONS]
+Starts a Hiveserver2 based on the supplied options.
+     --zk_connect        Kubernetes CNAME for the zookeeper ensemble
+
+     --rm_connect        Kubernetes CNAME address of the YARN Resource Manger
+
+     --igfs_connect      Kubernetes CNAME address of the IGFS cluster
+
+     --db-uri            URI for the Hive Metastore db instance
+
+     --db-password       Passowrd for the Hive Meteastore db instance
+
+     --db-username       Username for the hive metastore db instance
+
+     --log_level         The log level to write logs at. Either FATAL,
+                         ERROR, WARN, INFO, DEBUG. The default is INFO.
+
+     --log_dir           The local system directory to write logs to. 
+                         The default is /var/log/hive.
+"
+}
+
+source $CONTROL_HOME/$COMMON_FUNCTIONS
+
+optspec=":hv-:"
+while getopts "$optspec" optchar; do
+
+    case "${optchar}" in
+        -)
+            case "${OPTARG}" in
+                zk_connect=*)
+                    ZK_CONNECT=${OPTARG##*=}
+                    ;;
+                rm_connect=*)
+                    RM_CONNECT=${OPTARG##*=}
+                    ;;
+                igfs_connect=*)
+                    IGFS_CONNECT=${OPTARG##*=}
+                    ;;
+                log_level=*)
+                    LOG_LEVEL=${OPTARG##*=}
+                    ;;
+                db_uri=*)
+                    DB_URI=${OPTARG##*=}
+                    ;;
+                db_username=*)
+                    DB_USERNAME=${OPTARG##*=}
+                    ;;
+                db_password=*)
+                    DB_PASSWORD=${OPTARG##*=}
+                    ;;
+                *)
+                    echo "Unknown option --${OPTARG}" >&2
+                    exit 1
+                    ;;
+            esac;;
+        h)
+            print_usage
+            exit
+            ;;
+        v)
+            echo "Parsing option: '-${optchar}'" >&2
+            ;;
+        *)
+            if [ "$OPTERR" != 1 ] || [ "${optspec:0:1}" = ":" ]; then
+                echo "Non-option argument: '-${OPTARG}'" >&2
+            fi
+            ;;
+    esac
+done
+
+COMMON_FUNCTIONS="common-functions.sh"
+
+mk_log_dir && create_beeline_log4j && create_config_mapred_site && \
+create_config_tez_site && create_config_hive_site && create_config_core_site && \
+create_config_yarn_site && create_hadoop_env && create_hadoop_log4j && \
+create_hive_log4j && exec $HIVE_HOME/bin/hiveserver2
