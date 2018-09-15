@@ -85,6 +85,7 @@ cp $WORKING_DIR/$PACKAGING_DIR/ignite-$IGNITE_RELEASE_VERSION/ignite-hadoop/igni
 pushd $WORKING_DIR/$PACKAGING_DIR/tez
 tar cf tez.tar .
 gzip tez.tar
+mv tez.tar.gz ..
 popd
 popd
 
@@ -102,7 +103,7 @@ popd
 popd #back to working directory
 
 sudo $(aws ecr get-login --no-include-email --region eu-west-1)
-docker build -t hive .
+sudo docker build -t hive .
 sudo docker tag hive:latest 535272059665.dkr.ecr.eu-west-1.amazonaws.com/hive:latest
 sudo docker push 535272059665.dkr.ecr.eu-west-1.amazonaws.com/hive:latest
 
