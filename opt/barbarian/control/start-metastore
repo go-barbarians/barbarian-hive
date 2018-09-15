@@ -44,7 +44,8 @@ Starts a Hiveserver2 based on the supplied options.
 "
 }
 
-source $CONTROL_HOME/$COMMON_FUNCTIONS
+CONTROL_DIR=`readlink -f $(dirname $0)`
+source $CONTROL_DIR/common-functions.sh
 
 optspec=":hv-:"
 while getopts "$optspec" optchar; do

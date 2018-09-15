@@ -70,7 +70,8 @@ Launches Hive LLAP based on the supplied options.
 "
 }
 
-source $CONTROL_HOME/$COMMON_FUNCTIONS
+CONTROL_DIR=`readlink -f $(dirname $0)`
+source $CONTROL_DIR/common-functions.sh
 
 function create_slider_env() {
   TARGET_PATH=$SLIDER_CONF_DIR
