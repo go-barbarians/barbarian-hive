@@ -51,6 +51,7 @@ The image includes support for the following Hive features:
 
 ## Still to do
 
+- Add buildscripts
 - Support for dedicated Metastore and Apache Ranger will follow
 
 
