@@ -16,15 +16,7 @@
 #
 # Usage: await-llap
 # Waits until the LLAP service is up and running and exit
-# or 3600s have passed and abort - whichever is sooner
-
-function print_usage() {
-echo "\
-Usage: await-llap
- Waits until the LLAP service is up and running and exit
- or 360s have passed and abort - whichever is sooner
-"
-}
+# or 360s have passed and abort - whichever is sooner
 
 ELAPSED=0
 LLAP_STATUS=`$HADOOP_HOME/bin/yarn application -list | grep llap | tail -n 1 | awk '{ print $6 }'`
