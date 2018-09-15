@@ -21,7 +21,7 @@
 <!-- We need this for slider IGFS support -->
 <property>
 <name>tez.cluster.additional.classpath.prefix</name>
-<value>/hadoop/share/hadoop/common/lib/*</value>
+<value>/opt/barbarian/hadoop/share/hadoop/common/lib/*</value>
 </property>
 
 <property>
@@ -36,7 +36,7 @@
 
 <property>
 <name>tez.lib.uris.classpath</name>
-<value>/hadoop/share/hadoop/yarn/*:/hadoop/share/hadoop/yarn/lib/*:./tezlib/*:./tezlib/lib/*</value>
+<value>/opt/barbarian/hadoop/share/hadoop/yarn/*:/opt/barbarian/hadoop/share/hadoop/yarn/lib/*:./tezlib/*:./tezlib/lib/*</value>
 </property>
 
 <property>

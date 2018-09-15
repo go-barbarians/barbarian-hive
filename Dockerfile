@@ -3,50 +3,48 @@ FROM ubuntu:16.04
 ENV HS2_USER=hadoop \
     HS2_LOG_DIR=/var/log/hive \
     JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 \
-    HADOOP_HOME=/hadoop \
-    HIVE_HOME=/hive \
-    HADOOP_CONF_DIR=/hadoop/etc/hadoop \
-    YARN_CONF_DIR=/hadoop/etc/hadoop \
-    HIVE_CONF_DIR=/hive/conf \
-    TEZ_CONF_DIR=/tez/conf \
-    HADOOP_CLASSPATH=/hadoop/etc/hadoop:/hadoop/share/hadoop/common/lib/*:/hadoop/share/hadoop/common/*:/hadoop/share/hadoop/yarn/*:/hadoop/share/hadoop/yarn/lib/*:/tez/conf:/hive/lib/*:/tez/lib/*:/tez/*:/hadoop/share/hadoop/yarn/*:/hadoop/share/hadoop/yarn/lib/* \
+    HADOOP_HOME=/opt/barbarian/hadoop \
+    HIVE_HOME=/opt/barbarian/hive \
+    HADOOP_CONF_DIR=/opt/barbarian/hadoop/etc/hadoop \
+    YARN_CONF_DIR=/opt/barbarian/hadoop/etc/hadoop \
+    HIVE_CONF_DIR=/opt/barbarian/hive/conf \
+    TEZ_CONF_DIR=/opt/barbarian/tez/conf \
+    HADOOP_CLASSPATH=/opt/barbarian/hadoop/etc/hadoop:/opt/barbarian/hadoop/share/hadoop/common/lib/*:/opt/barbarian/hadoop/share/hadoop/common/*:/opt/barbarian/hadoop/share/hadoop/yarn/*:/opt/barbarian/hadoop/share/hadoop/yarn/lib/*:/opt/barbarian/tez/conf:/opt/barbarian/hive/lib/*:/opt/barbarian/tez/lib/*:/opt/barbarian/tez/* \
     HIVE_CLASSPATH=$HADOOP_CLASSPATH \
-    SLIDER_CONF_DIR=/slider/conf \
-    SLIDER_HOME=/slider \
-    CONTROL_HOME=/control
+    SLIDER_CONF_DIR=/opt/barbarian/slider/conf \
+    SLIDER_HOME=/opt/barbarian/slider \
+    CONTROL_HOME=/opt/barbarian/control
 
 RUN apt-get update && \
-    apt-get install -y openjdk-8-jre-headless
-RUN apt-get update && \
-    apt-get install ca-certificates-java && \
-    apt-get clean && \
+    apt-get install -y openjdk-8-jre-headless python2.7 openssl locales ca-certificates-java
+RUN apt-get clean && \
     update-ca-certificates -f && \
-    apt-get install -y software-properties-common && \
-    add-apt-repository -y ppa:fkrull/deadsnakes && \
-    apt-get update && \
-    apt-get install -y python2.6 && \
-    apt-get install -y openssl && \
-    apt-get -y install locales && \
     rm -rf /var/lib/apt/lists/*
 
-RUN ln -s /usr/bin/python2.6 /usr/bin/python
+#RUN ln -s /usr/bin/python2.6 /usr/bin/python
+RUN mkdir -p /opt/barbarian
 
-COPY ./control /control
-COPY ./hadoop /hadoop
-COPY ./hive /hive
-COPY ./tez /tez
-COPY ./slider /slider
-COPY ./templates /templates
-COPY ./ignite/libs/ignite-*.jar /hadoop/share/hadoop/common/lib/
-COPY ./ignite/libs/ignite-hadoop/ignite-*.jar /hadoop/share/hadoop/common/lib/
-COPY ./ignite/libs/ignite-*.jar /slider/lib/
-COPY ./ignite/libs/ignite-hadoop/ignite-*.jar /slider/lib/
-
+COPY ./opt/barbarian/control /opt/barbarian/control
+COPY ./opt/barbarian/hadoop /opt/barbarian/hadoop
+COPY ./opt/barbarian/hive /opt/barbarian/hive
+COPY ./opt/barbarian/tez /opt/barbarian/tez
+COPY ./opt/barbarian/slider /opt/barbarian/slider
+COPY ./opt/barbarian/templates /opt/barbarian/templates
+COPY ./opt/barbarian/ignite/libs/ignite-*.jar /opt/barbarian/hadoop/share/hadoop/common/lib/
+COPY ./opt/barbarian/ignite/libs/ignite-hadoop/ignite-*.jar /opt/barbarian/hadoop/share/hadoop/common/lib/
+COPY ./opt/barbarian/ignite/libs/ignite-*.jar /opt/barbarian/slider/lib/
+COPY ./opt/barbarian/ignite/libs/ignite-hadoop/ignite-*.jar /opt/barbarian/slider/lib/
 
 RUN set -x \
     && useradd $HS2_USER \
     && [ `id -u $HS2_USER` -eq 1000 ] \
     && [ `id -g $HS2_USER` -eq 1000 ] \
-    && mkdir -p $HS2_LOG_DIR /usr/share/hive /usr/etc/ \
+    && mkdir -p $HS2_LOG_DIR \
+    && mkdir -p /grid/0 \
     && chown -R "$HS2_USER:$HS2_USER" $HS2_LOG_DIR \
-    && ln -s /hive/conf/ /usr/etc/hive
+    && chown -R "$HS2_USER:$HS2_USER" /grid/0 \
+    && ln -s /opt/barbarian/hive/conf /etc/hive \
+    && ln -s /opt/barbarian/hadoop/etc/hadoop /etc/hadoop \
+    && ln -s /opt/barbarian/tez/conf /etc/tez \
+    && ln -s /opt/barbarian/slider/conf /etc/slider
+

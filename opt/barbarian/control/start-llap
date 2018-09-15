@@ -149,9 +149,12 @@ SLIDER_ENV_FILE="slider-env.sh"
 export SLIDER_HOME=$SLIDER_HOME
 export PATH=$PATH:$SLIDER_HOME/bin
 
+pushd /tmp
 create_config_slider_client && create_slider_env && create_llapd_log4j && \
 create_config_hdfs_site && create_hive_log4j && \
 create_config_tez_site && create_config_hive_site && create_config_core_site && \
 create_config_yarn_site && create_hadoop_env && create_hadoop_log4j && \
 $HIVE_HOME/bin/hive --service llap --name llap --instances $LLAPD_COUNT --size $LLAPD_RAM && \
-/llap-slider-$(date +%d%b%Y)/run.sh
+/tmp/llap-slider-$(date +%d%b%Y)/run.sh
+
+popd

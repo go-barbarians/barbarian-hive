@@ -69,17 +69,17 @@ spec:
             memory: "2Gi"
             cpu: "0.5"
         volumeMounts:
-        - mountPath: /hadoop/etc/hadoop
+        - mountPath: /opt/barbarian/hadoop/etc/hadoop
           name: yarn-cfg-volume
         - name: hive-cfg-volume
-          mountPath: /hive/conf
+          mountPath: /opt/barbarian/hive/conf
         ports:
         - containerPort: 9083
           name: server
         command:
         - sh
         - -c
-        - "/control/start-metastore \
+        - "/opt/barbarian/control/start-metastore \
           --zk_connect=zk-cs.default.svc.cluster.local \
       volumes:
       - name: yarn-cfg-volume
