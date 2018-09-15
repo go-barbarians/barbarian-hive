@@ -8,7 +8,7 @@ This repo contains the configuration files and build scripts for the Barbarian H
 
 The latest release of the Hive Docker image is based on the following Apache Foundation software releases:
 - Apache Hadoop 2.8.4
-- Apache Hive
+- Apache Hive 3.1.0
 - Apache Ignite 2.6 (patched)
 - Apache Tez 0.9.2
 - Apache Slider 0.6
@@ -22,7 +22,7 @@ The latest release of the Hive Docker image is based on the following Apache Fou
 
 ## Building
 
-**todo:** buildscripts missing
+Just run the buildscript @ $WORKING_DIR/build-image.sh
 
 ## Running
 
@@ -49,9 +49,8 @@ The image includes support for the following Hive features:
 - An initpod to wait for the Hive LLAPd service to come up
 - Apache Tez execution engine
 
-## Still to do
+## What's still to do
 
-- Add buildscripts
-- Support for dedicated Metastore and Apache Ranger will follow
+- Support for LDAP, kerberos & Apache Ranger will follow
 
 
