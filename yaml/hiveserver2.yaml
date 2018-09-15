@@ -62,8 +62,13 @@ spec:
       labels:
         app: hs2
     spec:
+      securityContext:
+        runAsUser: 1000
+        fsGroup: 1000
       containers:
       - image: 535272059665.dkr.ecr.eu-west-1.amazonaws.com/hiveserver2
+        securityContext:
+          allowPrivilegeEscalation: false
         name: hs2
         resources:
           requests:

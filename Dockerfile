@@ -1,6 +1,6 @@
 FROM ubuntu:16.04
 
-ENV HS2_USER=hive \
+ENV HS2_USER=hadoop \
     HS2_LOG_DIR=/var/log/hive \
     JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 \
     HADOOP_HOME=/hadoop \
@@ -12,7 +12,7 @@ ENV HS2_USER=hive \
     HADOOP_CLASSPATH=/hadoop/etc/hadoop:/hadoop/share/hadoop/common/lib/*:/hadoop/share/hadoop/common/*:/hadoop/share/hadoop/yarn/*:/hadoop/share/hadoop/yarn/lib/*:/tez/conf:/hive/lib/*:/tez/lib/*:/tez/*:/hadoop/share/hadoop/yarn/*:/hadoop/share/hadoop/yarn/lib/* \
     HIVE_CLASSPATH=$HADOOP_CLASSPATH \
     SLIDER_CONF_DIR=/slider/conf \
-    SLIDER_HOME=/slider
+    SLIDER_HOME=/slider \
     CONTROL_HOME=/control
 
 RUN apt-get update && \
