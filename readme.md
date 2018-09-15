@@ -38,9 +38,12 @@ Launching this image is done using [kubectl](https://kubernetes.io/docs/tasks/to
 - A running YARN ResourceManager
 - A running cluster of YARN NodeManagers
 
-Launch a 4-node LLAP cluster with ```kubectl create -f yaml/hiveserver2```
+Launch a 3-node Hive metastore cluster with ```kubectl create -f yaml/metastore.yaml```  
 
-*Just be sure to edit the file to add database connection info first...*
+Launch a 4-node LLAP cluster with ```kubectl create -f yaml/hiveserver2.yaml```
+
+*** please ensure that you set up the necessary secrets files and use the secrets setup script in the repo [barbarian-tooling](https://github.com/go-barbarians/barbarian-tooling) or the Metastore's database will not be accessible ***
+*** please ensure that you initialize an RDS instance using ```hive/bin/schematool -init``` or the Metastore's database will not be useable ***
 
 ## Features
 
