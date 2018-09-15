@@ -66,7 +66,7 @@ spec:
         runAsUser: 1000
         fsGroup: 1000
       containers:
-      - image: 535272059665.dkr.ecr.eu-west-1.amazonaws.com/hiveserver2
+      - image: 535272059665.dkr.ecr.eu-west-1.amazonaws.com/hive:latest
         securityContext:
           allowPrivilegeEscalation: false
         name: hs2
@@ -98,7 +98,7 @@ spec:
           --hms_connect=hms-cs.default.svc.cluster.local"
       initContainers:
       - name: start-hive-llap
-        image: 535272059665.dkr.ecr.eu-west-1.amazonaws.com/hiveserver2
+        image: 535272059665.dkr.ecr.eu-west-1.amazonaws.com/hive:latest
         command:
         - sh
         - -c 
@@ -120,7 +120,7 @@ spec:
         - name: slider-cfg-volume
           mountPath: "/slider/conf"
       - name: await-llap
-        image: 535272059665.dkr.ecr.eu-west-1.amazonaws.com/hiveserver2
+        image: 535272059665.dkr.ecr.eu-west-1.amazonaws.com/hive:latest
         command:
         - sh
         - -c 
