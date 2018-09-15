@@ -491,7 +491,7 @@
   </property>
   <property>
     <name>hive.metastore.uris</name>
-    <value/>
+    <value>zzzHMS_CONNECTzzz</value>
     <description>Thrift URI for the remote metastore. Used by metastore client to connect to remote metastore.</description>
   </property>
   <property>
@@ -509,7 +509,7 @@
   </property>
   <property>
     <name>hive.metastore.client.cache.enabled</name>
-    <value>false</value>
+    <value>true</value>
     <description>Whether to enable metastore client cache</description>
   </property>
   <property>
@@ -598,7 +598,7 @@
   </property>
   <property>
     <name>javax.jdo.option.ConnectionPassword</name>
-    <value>zzzDB_PASSWORDzzz</value>
+    <value>zzzHMS_DB_PASSWORDzzz</value>
     <description>password to use against metastore database</description>
   </property>
   <property>
@@ -613,7 +613,7 @@
   </property>
   <property>
     <name>javax.jdo.option.ConnectionURL</name>
-    <value>zzzDB_URIzzz</value>
+    <value>zzzHMS_DB_URIzzz</value>
     <description>
       JDBC connect string for a JDBC metastore.
       To use SSL to encrypt/authenticate the connection, provide database-specific SSL flag in the connection URL.
@@ -1156,7 +1156,7 @@
   </property>
   <property>
     <name>javax.jdo.option.ConnectionUserName</name>
-    <value>zzzDB_USERNAMEzzz</value>
+    <value>zzzHMS_DB_USERNAMEzzz</value>
     <description>Username to use against metastore database</description>
   </property>
   <property>

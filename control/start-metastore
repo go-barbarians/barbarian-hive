@@ -18,12 +18,6 @@
 # Starts a Hiveserver2 based on the supplied options.
 #     --zk_connect        Kubernetes CNAME for the zookeeper ensemble
 
-#     --rm_connect        Kubernetes CNAME address of the YARN Resource Manger
-
-#     --igfs_connect      Kubernetes CNAME address of the IGFS cluster
-
-#     --hms_connect       Kubernetes CNAME address of the Hive Metastore
-
 #     --log_level         The log level to write logs at. Either FATAL,
 #                         ERROR, WARN, INFO, DEBUG. The default is INFO.
 
@@ -41,12 +35,6 @@ echo "\
 Usage: start-hiveserver2 [OPTIONS]
 Starts a Hiveserver2 based on the supplied options.
      --zk_connect        Kubernetes CNAME for the zookeeper ensemble
-
-     --rm_connect        Kubernetes CNAME address of the YARN Resource Manger
-
-     --igfs_connect      Kubernetes CNAME address of the IGFS cluster
-
-     --hms_connect       Kubernetes CNAME address of the Hive Metastore
 
      --log_level         The log level to write logs at. Either FATAL,
                          ERROR, WARN, INFO, DEBUG. The default is INFO.
@@ -67,20 +55,11 @@ while getopts "$optspec" optchar; do
                 zk_connect=*)
                     ZK_CONNECT=${OPTARG##*=}
                     ;;
-                rm_connect=*)
-                    RM_CONNECT=${OPTARG##*=}
-                    ;;
-                igfs_connect=*)
-                    IGFS_CONNECT=${OPTARG##*=}
-                    ;;
-                hms_connect=*)
-                    HMS_CONNECT=${OPTARG##*=}
+                log_dir=*)
+                    LOG_DIR=${OPTARG##*=}
                     ;;
                 log_level=*)
                     LOG_LEVEL=${OPTARG##*=}
-                    ;;
-                log_dir=*)
-                    LOG_DIR=${OPTARG##*=}
                     ;;
                 *)
                     echo "Unknown option --${OPTARG}" >&2
@@ -107,4 +86,4 @@ COMMON_FUNCTIONS="common-functions.sh"
 mk_log_dir && create_beeline_log4j && create_config_mapred_site && \
 create_config_tez_site && create_config_hive_site && create_config_core_site && \
 create_config_yarn_site && create_hadoop_env && create_hadoop_log4j && \
-create_hive_log4j && exec $HIVE_HOME/bin/hiveserver2
+create_hive_log4j && exec $HIVE_HOME/bin/metastore

@@ -16,11 +16,13 @@
 #
 # Usage: start-llap [OPTIONS]
 # Launches Hive LLAP based on the supplied options.
-#     --zk_connect        CNAME for the zookeeper ensemble
+#     --zk_connect        Kubernetes CNAME for the zookeeper ensemble
 
-#     --rm_connect        CNAME address of the YARN Resource Manger
+#     --rm_connect        Kubernetes CNAME address of the YARN Resource Manger
 
-#     --igfs_connect      CNAME address of the IGFS cluster
+#     --igfs_connect      Kubernetes CNAME address of the IGFS cluster
+
+#     --hms_connect       Kubernetes CNAME address of the Hive Metastore
 
 #     --log_level         The log level for the process. Either FATAL,
 #                         ERROR, WARN, INFO, DEBUG. The default is INFO.
@@ -46,11 +48,13 @@ function print_usage() {
 echo "\
 Usage: start-llap [OPTIONS]
 Launches Hive LLAP based on the supplied options.
-     --zk_connect        CNAME for the zookeeper ensemble
+     --zk_connect        Kubernetes CNAME for the zookeeper ensemble
 
-     --rm_connect        CNAME address of the YARN Resource Manger
+     --rm_connect        Kubernetes CNAME address of the YARN Resource Manger
 
-     --igfs_connect      CNAME address of the IGFS cluster
+     --hms_connect       Kubernetes CNAME address of the Hive Metastore
+
+     --igfs_connect      Kubernetes CNAME address of the IGFS cluster
 
      --log_level         The log level for the process. Either FATAL,
                          ERROR, WARN, INFO, DEBUG. The default is INFO.
@@ -100,6 +104,9 @@ while getopts "$optspec" optchar; do
                     ;;
                 igfs_connect=*)
                     IGFS_CONNECT=${OPTARG##*=}
+                    ;;
+                hms_connect=*)
+                    HMS_CONNECT=${OPTARG##*=}
                     ;;
                 log_level=*)
                     LOG_LEVEL=${OPTARG##*=}
