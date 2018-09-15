@@ -22,12 +22,6 @@
 
 #     --igfs_connect      Kubernetes CNAME address of the IGFS cluster
 
-#     --db-uri            URI for the Hive Metastore db instance
-
-#     --db-password       Password for the Hive Meteastore db instance
-
-#     --db-username       Username for the hive metastore db instance
-
 #     --log_level         The log level to write logs at. Either FATAL,
 #                         ERROR, WARN, INFO, DEBUG. The default is INFO.
 
@@ -49,12 +43,6 @@ Starts a Hiveserver2 based on the supplied options.
      --rm_connect        Kubernetes CNAME address of the YARN Resource Manger
 
      --igfs_connect      Kubernetes CNAME address of the IGFS cluster
-
-     --db-uri            URI for the Hive Metastore db instance
-
-     --db-password       Passowrd for the Hive Meteastore db instance
-
-     --db-username       Username for the hive metastore db instance
 
      --log_level         The log level to write logs at. Either FATAL,
                          ERROR, WARN, INFO, DEBUG. The default is INFO.
@@ -83,15 +71,6 @@ while getopts "$optspec" optchar; do
                     ;;
                 log_level=*)
                     LOG_LEVEL=${OPTARG##*=}
-                    ;;
-                db_uri=*)
-                    DB_URI=${OPTARG##*=}
-                    ;;
-                db_username=*)
-                    DB_USERNAME=${OPTARG##*=}
-                    ;;
-                db_password=*)
-                    DB_PASSWORD=${OPTARG##*=}
                     ;;
                 *)
                     echo "Unknown option --${OPTARG}" >&2

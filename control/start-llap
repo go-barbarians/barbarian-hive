@@ -22,12 +22,6 @@
 
 #     --igfs_connect      CNAME address of the IGFS cluster
 
-#     --db-uri            Connect URI for the Hive Metastore db instance
-
-#     --db-password       Passowrd for the Hive Metastore db instance
-
-#     --db-username       Username for the Hive Metastore db instance
-
 #     --log_level         The log level for the process. Either FATAL,
 #                         ERROR, WARN, INFO, DEBUG. The default is INFO.
 
@@ -57,12 +51,6 @@ Launches Hive LLAP based on the supplied options.
      --rm_connect        CNAME address of the YARN Resource Manger
 
      --igfs_connect      CNAME address of the IGFS cluster
-
-     --db-uri            Connect URI for the Hive Metastore db instance
-
-     --db-password       Passowrd for the Hive Metastore db instance
-
-     --db-username       Username for the Hive Metastore db instance
 
      --log_level         The log level for the process. Either FATAL,
                          ERROR, WARN, INFO, DEBUG. The default is INFO.
@@ -118,15 +106,6 @@ while getopts "$optspec" optchar; do
                     ;;
                 log_dir=*)
                     LOG_DIR=${OPTARG##*=}
-                    ;;
-                db_uri=*)
-                    DB_URI=${OPTARG##*=}
-                    ;;
-                db_username=*)
-                    DB_USERNAME=${OPTARG##*=}
-                    ;;
-                db_password=*)
-                    DB_PASSWORD=${OPTARG##*=}
                     ;;
                 llapd_count=*)
                     LLAPD_COUNT=${OPTARG##*=}

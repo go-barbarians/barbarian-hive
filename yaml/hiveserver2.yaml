@@ -64,6 +64,22 @@ spec:
     spec:
       containers:
       - image: 535272059665.dkr.ecr.eu-west-1.amazonaws.com/hiveserver2
+        env:
+          - name: METASTORE_DB_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: metastore-db-secret
+                key: username
+          - name: METASTORE_DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name:metastore-db-secret
+                key: password
+          - name: METASTORE_DB_URI
+            valueFrom:
+              secretKeyRef:
+                name:metastore-db-secret
+                key: uri
         name: hs2
         resources:
           requests:
@@ -89,13 +105,26 @@ spec:
         - "/control/start-hiveserver2 \
           --zk_connect=zk-cs.default.svc.cluster.local \
           --rm_connect=yarn-rm-cs.default.svc.cluster.local \
-          --igfs_connect=ignite-cs.default.svc.cluster.local \
-          --db_uri=jdbc:mysql://XXXX:3306/hive_metastore \
-          --db_username=XXXXXXXX \
-          --db_password=XXXXXXXX"
+          --igfs_connect=ignite-cs.default.svc.cluster.local"
       initContainers:
       - name: start-hive-llap
         image: 535272059665.dkr.ecr.eu-west-1.amazonaws.com/hiveserver2
+        env:
+          - name: METASTORE_DB_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: metastore-db-secret
+                key: username
+          - name: METASTORE_DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name:metastore-db-secret
+                key: password
+          - name: METASTORE_DB_URI
+            valueFrom:
+              secretKeyRef:
+                name:metastore-db-secret
+                key: uri
         command:
         - sh
         - -c 
@@ -104,9 +133,6 @@ spec:
           --zk_connect=zk-cs.default.svc.cluster.local \
           --rm_connect=yarn-rm-cs.default.svc.cluster.local \
           --igfs_connect=ignite-cs.default.svc.cluster.local \
-          --db_uri=jdbc:mysql://XXXXX:3306/hive_metastore \
-          --db_username=XXXXXXXXX \
-          --db_password=XXXXXXXXX \
           --llapd_count=4 \
           --llapd_ram=1g"
         volumeMounts:
