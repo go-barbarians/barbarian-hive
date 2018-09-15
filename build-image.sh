@@ -4,6 +4,8 @@
 #              - Membership Barbarians team with read access to github
 #              - Ubuntu 16.04 LTS
 
+CONTAINER_REPO=535272059665.dkr.ecr.eu-west-1.amazonaws.com
+
 HADOOP_VERSION=2.8.4
 HIVE_BRANCH_VERSION=3.1 #currently labelled 3.1.0 in the dist
 HIVE_RELEASE_VERSION=3.1.0
@@ -114,6 +116,6 @@ popd #back to working directory
 
 sudo $(aws ecr get-login --no-include-email --region eu-west-1)
 sudo docker build -t hive .
-sudo docker tag hive:latest 535272059665.dkr.ecr.eu-west-1.amazonaws.com/hive:latest
-sudo docker push 535272059665.dkr.ecr.eu-west-1.amazonaws.com/hive:latest
+sudo docker tag hive:latest $CONTAINER_REPO/hive:latest
+sudo docker push $CONTAINER_REPO/hive:latest
 
