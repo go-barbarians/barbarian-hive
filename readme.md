@@ -51,6 +51,8 @@ The image includes support for the following Hive features:
 - An initpod to launch Hive LLAP daemons (low latency analytics processing aka live long and process) on the cluster
 - An initpod to wait for the Hive LLAPd service to come up
 - Apache Tez execution engine
+- Standalone Metastore in HA
+- Hiveserver2
 
 ## What's still to do
 
