@@ -5,7 +5,13 @@ function mk_log_dir() {
 function process_file() {
   rm -f $TARGET_PATH/$TARGET_FILE
   echo "Creating $TARGET_PATH/$TARGET_FILE configuration"
-  TEMPLATE=`cat /templates/$TARGET_PATH/$TARGET_FILE.template`
+
+  #Strip whitespace
+  HMS_DB_USERNAME=$(echo $HMS_DB_USERNAME | xargs)
+  HMS_DB_PASSWORD=$(echo $HMS_DB_PASSWORD | xargs)
+  HMS_DB_URI=$(echo $HMS_DB_URI | xargs)
+
+  TEMPLATE=`cat /opt/barbarian/templates/$TARGET_PATH/$TARGET_FILE.template`
   TEMPLATE="${TEMPLATE//zzzLOG_LEVELzzz/$LOG_LEVEL}"
   TEMPLATE="${TEMPLATE//zzzLOG_DIRzzz/$LOG_DIR}"
   TEMPLATE="${TEMPLATE//zzzHMS_DB_URIzzz/$HMS_DB_URI}"

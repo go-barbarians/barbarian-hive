@@ -491,7 +491,7 @@
   </property>
   <property>
     <name>hive.metastore.uris</name>
-    <value>zzzHMS_CONNECTzzz</value>
+    <value>thrift://zzzHMS_CONNECTzzz</value>
     <description>Thrift URI for the remote metastore. Used by metastore client to connect to remote metastore.</description>
   </property>
   <property>

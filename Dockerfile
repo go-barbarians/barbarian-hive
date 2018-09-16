@@ -1,6 +1,6 @@
 FROM ubuntu:16.04
 
-ENV HS2_USER=hadoop \
+ENV HIVE_USER=hadoop \
     HS2_LOG_DIR=/var/log/hive \
     JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 \
     HADOOP_HOME=/opt/barbarian/hadoop \
@@ -21,7 +21,7 @@ RUN apt-get clean && \
     update-ca-certificates -f && \
     rm -rf /var/lib/apt/lists/*
 
-#RUN ln -s /usr/bin/python2.6 /usr/bin/python
+RUN ln -s /usr/bin/python2.7 /usr/bin/python
 RUN mkdir -p /opt/barbarian
 
 COPY ./opt/barbarian/control /opt/barbarian/control
@@ -41,8 +41,10 @@ RUN set -x \
     && [ `id -g $HS2_USER` -eq 1000 ] \
     && mkdir -p $HS2_LOG_DIR \
     && mkdir -p /grid/0 \
-    && chown -R "$HS2_USER:$HS2_USER" $HS2_LOG_DIR \
-    && chown -R "$HS2_USER:$HS2_USER" /grid/0 \
+    && mkdir -p /home/$HIVE_USER \
+    && chown -R "$HIVE_USER:$HIVE_USER" $HS2_LOG_DIR \
+    && chown -R "$HIVE_USER:$HIVE_USER" /grid/0 \
+    && chown -R "$HIVE_USER:$HIVE_USER" /home/$HIVE_USER \
     && ln -s /opt/barbarian/hive/conf /etc/hive \
     && ln -s /opt/barbarian/hadoop/etc/hadoop /etc/hadoop \
     && ln -s /opt/barbarian/tez/conf /etc/tez \

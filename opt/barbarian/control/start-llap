@@ -91,6 +91,12 @@ function create_config_slider_client() {
   process_file
 }
 
+function create_config_hdfs_site() {
+  TARGET_PATH=$HADOOP_CONF_DIR
+  TARGET_FILE=$HDFS_SITE_FILE
+  process_file
+}
+
 optspec=":hv-:"
 while getopts "$optspec" optchar; do
 
@@ -143,6 +149,7 @@ done
 
 COMMON_FUNCTIONS="common-functions.sh"
 
+HDFS_SITE_FILE="hdfs-site.xml"
 SLIDER_CLIENT_FILE="slider-client.xml"
 LLAPD_LOG4J_FILE="llap-daemon-log4j2.properties"
 SLIDER_ENV_FILE="slider-env.sh"
@@ -156,6 +163,6 @@ create_config_hdfs_site && create_hive_log4j && \
 create_config_tez_site && create_config_hive_site && create_config_core_site && \
 create_config_yarn_site && create_hadoop_env && create_hadoop_log4j && \
 $HIVE_HOME/bin/hive --service llap --name llap --instances $LLAPD_COUNT --size $LLAPD_RAM && \
-/tmp/llap-slider-$(date +%d%b%Y)/run.sh
+llap-slider-$(date +%d%b%Y)/run.sh
 
 popd

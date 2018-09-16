@@ -8,9 +8,8 @@ spec:
   ports:
   - port: 9083
     name: server
-  clusterIP: None
   selector:
-    app: hms-cs
+    app: hms
 ---
 apiVersion: policy/v1beta1
 kind: PodDisruptionBudget
@@ -31,7 +30,7 @@ spec:
     matchLabels:
       app: hms
   serviceName: hms-cs
-  replicas: 3
+  replicas: 2
   updateStrategy:
     type: RollingUpdate
   podManagementPolicy: Parallel
@@ -48,20 +47,20 @@ spec:
         securityContext:
           allowPrivilegeEscalation: false
         env:
-          - name: METASTORE_DB_USERNAME
+          - name: HMS_DB_USERNAME
             valueFrom:
               secretKeyRef:
                 name: metastore-db-secret
                 key: username
-          - name: METASTORE_DB_PASSWORD
+          - name: HMS_DB_PASSWORD
             valueFrom:
               secretKeyRef:
-                name:metastore-db-secret
+                name: metastore-db-secret
                 key: password
-          - name: METASTORE_DB_URI
+          - name: HMS_DB_URI
             valueFrom:
               secretKeyRef:
-                name:metastore-db-secret
+                name: metastore-db-secret
                 key: uri
         name: hms
         resources:
@@ -73,6 +72,10 @@ spec:
           name: yarn-cfg-volume
         - name: hive-cfg-volume
           mountPath: /opt/barbarian/hive/conf
+        - name: tez-cfg-volume
+          mountPath: /opt/barbarian/tez/conf
+        - name: slider-cfg-volume
+          mountPath: /opt/barbarian/slider/conf
         ports:
         - containerPort: 9083
           name: server
@@ -81,8 +84,13 @@ spec:
         - -c
         - "/opt/barbarian/control/start-metastore \
           --zk_connect=zk-cs.default.svc.cluster.local \
+          --rm_connect=yarn-rm-cs.default.svc.cluster.local"
       volumes:
       - name: yarn-cfg-volume
         emptyDir: {}
       - name: hive-cfg-volume
+        emptyDir: {}
+      - name: tez-cfg-volume
+        emptyDir: {}
+      - name: slider-cfg-volume
         emptyDir: {}

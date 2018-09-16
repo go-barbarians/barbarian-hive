@@ -18,6 +18,8 @@
 # Starts a Hiveserver2 based on the supplied options.
 #     --zk_connect        Kubernetes CNAME for the zookeeper ensemble
 
+#     --rm_connect        Kubernetes CNAME for the YARN ResourceManager
+
 #     --log_level         The log level to write logs at. Either FATAL,
 #                         ERROR, WARN, INFO, DEBUG. The default is INFO.
 
@@ -35,6 +37,8 @@ echo "\
 Usage: start-hiveserver2 [OPTIONS]
 Starts a Hiveserver2 based on the supplied options.
      --zk_connect        Kubernetes CNAME for the zookeeper ensemble
+
+     --rm_connect        Kubernetes CNAME for the YARN ResourceManager
 
      --log_level         The log level to write logs at. Either FATAL,
                          ERROR, WARN, INFO, DEBUG. The default is INFO.
@@ -55,6 +59,9 @@ while getopts "$optspec" optchar; do
             case "${OPTARG}" in
                 zk_connect=*)
                     ZK_CONNECT=${OPTARG##*=}
+                    ;;
+                rm_connect=*)
+                    RM_CONNECT=${OPTARG##*=}
                     ;;
                 log_dir=*)
                     LOG_DIR=${OPTARG##*=}
