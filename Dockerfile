@@ -1,7 +1,7 @@
 FROM ubuntu:16.04
 
 ENV HIVE_USER=hadoop \
-    HS2_LOG_DIR=/var/log/hive \
+    HIVE_LOG_DIR=/var/log/hive \
     JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 \
     HADOOP_HOME=/opt/barbarian/hadoop \
     HIVE_HOME=/opt/barbarian/hive \
@@ -16,7 +16,7 @@ ENV HIVE_USER=hadoop \
     CONTROL_HOME=/opt/barbarian/control
 
 RUN apt-get update && \
-    apt-get install -y openjdk-8-jre-headless python2.7 openssl locales ca-certificates-java
+    apt-get install -y openjdk-8-jre-headless python2.7 openssl locales ca-certificates-java wget
 RUN apt-get clean && \
     update-ca-certificates -f && \
     rm -rf /var/lib/apt/lists/*
@@ -29,20 +29,21 @@ COPY ./opt/barbarian/hadoop /opt/barbarian/hadoop
 COPY ./opt/barbarian/hive /opt/barbarian/hive
 COPY ./opt/barbarian/tez /opt/barbarian/tez
 COPY ./opt/barbarian/slider /opt/barbarian/slider
-COPY ./opt/barbarian/templates /opt/barbarian/templates
 COPY ./opt/barbarian/ignite/libs/ignite-*.jar /opt/barbarian/hadoop/share/hadoop/common/lib/
 COPY ./opt/barbarian/ignite/libs/ignite-hadoop/ignite-*.jar /opt/barbarian/hadoop/share/hadoop/common/lib/
 COPY ./opt/barbarian/ignite/libs/ignite-*.jar /opt/barbarian/slider/lib/
 COPY ./opt/barbarian/ignite/libs/ignite-hadoop/ignite-*.jar /opt/barbarian/slider/lib/
 
+RUN wget -O /opt/barbarian/hive/lib/mariadb-jdbc.jar https://downloads.mariadb.com/Connectors/java/connector-java-2.3.0/mariadb-java-client-2.3.0.jar
+
 RUN set -x \
-    && useradd $HS2_USER \
-    && [ `id -u $HS2_USER` -eq 1000 ] \
-    && [ `id -g $HS2_USER` -eq 1000 ] \
-    && mkdir -p $HS2_LOG_DIR \
+    && useradd $HIVE_USER \
+    && [ `id -u $HIVE_USER` -eq 1000 ] \
+    && [ `id -g $HIVE_USER` -eq 1000 ] \
+    && mkdir -p $HIVE_LOG_DIR \
     && mkdir -p /grid/0 \
     && mkdir -p /home/$HIVE_USER \
-    && chown -R "$HIVE_USER:$HIVE_USER" $HS2_LOG_DIR \
+    && chown -R "$HIVE_USER:$HIVE_USER" $HIVE_LOG_DIR \
     && chown -R "$HIVE_USER:$HIVE_USER" /grid/0 \
     && chown -R "$HIVE_USER:$HIVE_USER" /home/$HIVE_USER \
     && ln -s /opt/barbarian/hive/conf /etc/hive \

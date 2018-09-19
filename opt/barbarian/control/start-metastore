@@ -14,84 +14,23 @@
 # limitations under the License.
 #
 #
-# Usage: start-hiveserver2 [OPTIONS]
-# Starts a Hiveserver2 based on the supplied options.
-#     --zk_connect        Kubernetes CNAME for the zookeeper ensemble
-
-#     --rm_connect        Kubernetes CNAME for the YARN ResourceManager
-
-#     --log_level         The log level to write logs at. Either FATAL,
-#                         ERROR, WARN, INFO, DEBUG. The default is INFO.
-
-#     --log_dir           The local system directory to write logs to.
-#                         The default is /var/log/hive.
+# Usage: start-metastore
+# Starts a Hive Metastore.
 
 USER=`whoami`
 HOST=`hostname -s`
 DOMAIN=`hostname -d`
-LOG_LEVEL=INFO
-LOG_DIR=/var/log/hive
 
 function print_usage() {
 echo "\
-Usage: start-hiveserver2 [OPTIONS]
-Starts a Hiveserver2 based on the supplied options.
-     --zk_connect        Kubernetes CNAME for the zookeeper ensemble
-
-     --rm_connect        Kubernetes CNAME for the YARN ResourceManager
-
-     --log_level         The log level to write logs at. Either FATAL,
-                         ERROR, WARN, INFO, DEBUG. The default is INFO.
-
-     --log_dir           The local system directory to write logs to. 
-                         The default is /var/log/hive.
+Usage: start-metastore
+Starts a Hive Metastore.
 "
 }
 
 CONTROL_DIR=`dirname $(readlink -f $0)`
 source $CONTROL_DIR/common-functions.sh
 
-optspec=":hv-:"
-while getopts "$optspec" optchar; do
-
-    case "${optchar}" in
-        -)
-            case "${OPTARG}" in
-                zk_connect=*)
-                    ZK_CONNECT=${OPTARG##*=}
-                    ;;
-                rm_connect=*)
-                    RM_CONNECT=${OPTARG##*=}
-                    ;;
-                log_dir=*)
-                    LOG_DIR=${OPTARG##*=}
-                    ;;
-                log_level=*)
-                    LOG_LEVEL=${OPTARG##*=}
-                    ;;
-                *)
-                    echo "Unknown option --${OPTARG}" >&2
-                    exit 1
-                    ;;
-            esac;;
-        h)
-            print_usage
-            exit
-            ;;
-        v)
-            echo "Parsing option: '-${optchar}'" >&2
-            ;;
-        *)
-            if [ "$OPTERR" != 1 ] || [ "${optspec:0:1}" = ":" ]; then
-                echo "Non-option argument: '-${OPTARG}'" >&2
-            fi
-            ;;
-    esac
-done
-
 COMMON_FUNCTIONS="common-functions.sh"
 
-mk_log_dir && create_beeline_log4j && create_config_mapred_site && \
-create_config_tez_site && create_config_hive_site && create_config_core_site && \
-create_config_yarn_site && create_hadoop_env && create_hadoop_log4j && \
-create_hive_log4j && exec $HIVE_HOME/bin/metastore
+exec $HIVE_HOME/bin/metastore
