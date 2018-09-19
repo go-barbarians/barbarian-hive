@@ -1,5 +1,7 @@
-# Barbarian Hadoop distribution
+# Barbarian big data system
+Barbarian is the world's best cloud-first, cloud-agnostic big data system founded on Apache Hadoop for enterprise-ready parallel distributed data processing at scale.
 
+Read more at:
 [https://barbarians.io/](https://barbarians.io)
 
 ## Hive Docker image
