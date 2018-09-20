@@ -33,6 +33,7 @@ COPY ./opt/barbarian/ignite/libs/ignite-*.jar /opt/barbarian/hadoop/share/hadoop
 COPY ./opt/barbarian/ignite/libs/ignite-hadoop/ignite-*.jar /opt/barbarian/hadoop/share/hadoop/common/lib/
 COPY ./opt/barbarian/ignite/libs/ignite-*.jar /opt/barbarian/slider/lib/
 COPY ./opt/barbarian/ignite/libs/ignite-hadoop/ignite-*.jar /opt/barbarian/slider/lib/
+COPY ./opt/barbarian/tez.tar.gz /opt/barbarian/tez.tar.gz
 
 RUN wget -O /opt/barbarian/hive/lib/mariadb-jdbc.jar https://downloads.mariadb.com/Connectors/java/connector-java-2.3.0/mariadb-java-client-2.3.0.jar
 
