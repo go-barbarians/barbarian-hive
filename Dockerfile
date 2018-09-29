@@ -46,9 +46,12 @@ RUN echo "hadoop:x:1000:1000:hadoop:/home/hadoop:/bin/mksh" >> /etc/passwd
 RUN mkdir -p $HIVE_LOG_DIR \
     && mkdir -p /grid/0 \
     && mkdir -p /home/$HIVE_USER \
-    && chown -R "$HIVE_USER:$HIVE_USER" $HIVE_LOG_DIR \
-    && chown -R "$HIVE_USER:$HIVE_USER" /grid/0 \
-    && chown -R "$HIVE_USER:$HIVE_USER" /home/$HIVE_USER \
+    && chown -R "$HIVE_USER" $HIVE_LOG_DIR \
+    && chown -R "$HIVE_USER" /grid/0 \
+    && chown -R "$HIVE_USER" /home/$HIVE_USER \
+    && chgrp -R "$HIVE_USER" $HIVE_LOG_DIR \
+    && chgrp -R "$HIVE_USER" /grid/0 \
+    && chgrp -R "$HIVE_USER" /home/$HIVE_USER \
     && ln -s /opt/barbarian/hive/conf /etc/hive \
     && ln -s /opt/barbarian/hadoop/etc/hadoop /etc/hadoop \
     && ln -s /opt/barbarian/tez/conf /etc/tez

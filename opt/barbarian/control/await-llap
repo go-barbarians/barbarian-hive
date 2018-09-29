@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env mksh
 # Copyright 2018 Barbarians.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,7 +19,7 @@
 # or 360s have passed and abort - whichever is sooner
 
 ELAPSED=0
-LLAP_STATUS=`$HADOOP_HOME/bin/yarn application -list | grep llap | tail -n 1 | awk '{ print $6 }'`
+LLAP_STATUS=`$HADOOP_HOME/bin/yarn application -list | grep llap | tail -n 1 | nawk '{ print $6 }'`
 while [ "$LLAP_STATUS" != "RUNNING" ]
 do
   sleep 10
@@ -29,11 +29,11 @@ do
     echo "timed out waiting for LLAP daemons to be assigned"
     exit -1
   fi
-  LLAP_STATUS=`$HADOOP_HOME/bin/yarn application -list | grep llap | tail -n 1 | awk '{ print $6 }'`
+  LLAP_STATUS=`$HADOOP_HOME/bin/yarn application -list | grep llap | tail -n 1 | nawk '{ print $6 }'`
 done
 
 ELAPSED=0
-LLAP_RUNSTATE=`$HADOOP_HOME/bin/yarn application -list | grep llap | tail -n 1 | awk '{ print $8 }'`
+LLAP_RUNSTATE=`$HADOOP_HOME/bin/yarn application -list | grep llap | tail -n 1 | nawk '{ print $8 }'`
 while [ "$LLAP_RUNSTATE" != "100%" ]
 do
   sleep 10
@@ -43,7 +43,7 @@ do
      echo "timed out waiting for LLAP daemons to be initialized"
      exit -1
   fi
-  LLAP_RUNSTATE=`$HADOOP_HOME/bin/yarn application -list | grep llap | tail -n 1 | awk '{ print $8 }'`
+  LLAP_RUNSTATE=`$HADOOP_HOME/bin/yarn application -list | grep llap | tail -n 1 | nawk '{ print $8 }'`
 done
 
 # allow some time for the YARN containers to initialize
