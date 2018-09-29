@@ -37,3 +37,12 @@ steps:
     description: Building the image...
     image-name: dockerbarbarians/hive
     tag: develop
+
+  push_image:
+    type: push
+    description: Push image to repo
+    candidate: '${{build_image}}'
+    tag: unstable
+    credentials:
+      username: '${{DOCKER_USER}}'
+      password: '${{DOCKER_PASS}}'
