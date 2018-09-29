@@ -26,7 +26,7 @@ steps:
       - cp -R apache-hive-$HIVE_BUILD_NUMBER-bin/* opt/barbarian/hive
       - cp -R hadoop-$HADOOP_BUILD_NUMBER/* opt/barbarian/hadoop
       - cp -R apache-ignite-hadoop-$IGNITE_BUILD_NUMBER-bin/* opt/barbarian/ignite
-      - cd tez; cp ../opt/barbarian/ignite/libs/ignite-shmem-1.0.0.jar .; cp ../opt/barbarian/ignite/libs/ignite-core-$IGNITE_BUILD_NUMBER.jar .; cp ../opt/barbarian/ignite/libs/ignite-hadoop/ignite-hadoop-$IGNITE_BUILD_NUMBER.jar; cd ..
+      - cd tez; cp ../opt/barbarian/ignite/libs/ignite-shmem-1.0.0.jar .; cp ../opt/barbarian/ignite/libs/ignite-core-$IGNITE_BUILD_NUMBER.jar .; cp ../opt/barbarian/ignite/libs/ignite-hadoop/ignite-hadoop-$IGNITE_BUILD_NUMBER.jar .; cd ..
       - cd tez; tar -cf tez.tar .; gzip tez.tar; mv tez.tar.gz ..; cd ..
       - cp tez.tar.gz opt/barbarian
     entry_point:
