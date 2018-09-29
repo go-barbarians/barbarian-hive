@@ -28,7 +28,7 @@ COPY ./opt/barbarian/control /opt/barbarian/control
 COPY ./opt/barbarian/hadoop /opt/barbarian/hadoop
 COPY ./opt/barbarian/hive /opt/barbarian/hive
 COPY ./opt/barbarian/tez /opt/barbarian/tez
-COPY ./opt/barbarian/slider /opt/barbarian/slider
+# COPY ./opt/barbarian/slider /opt/barbarian/slider
 COPY ./opt/barbarian/ignite/libs/ignite-*.jar /opt/barbarian/hadoop/share/hadoop/common/lib/
 COPY ./opt/barbarian/ignite/libs/ignite-hadoop/ignite-*.jar /opt/barbarian/hadoop/share/hadoop/common/lib/
 COPY ./opt/barbarian/ignite/libs/ignite-*.jar /opt/barbarian/slider/lib/
@@ -49,6 +49,5 @@ RUN set -x \
     && chown -R "$HIVE_USER:$HIVE_USER" /home/$HIVE_USER \
     && ln -s /opt/barbarian/hive/conf /etc/hive \
     && ln -s /opt/barbarian/hadoop/etc/hadoop /etc/hadoop \
-    && ln -s /opt/barbarian/tez/conf /etc/tez \
-    && ln -s /opt/barbarian/slider/conf /etc/slider
-
+    && ln -s /opt/barbarian/tez/conf /etc/tez #\
+#    && ln -s /opt/barbarian/slider/conf /etc/slider
