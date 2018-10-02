@@ -10,9 +10,14 @@ then
 	GLIBC_VERSION=2.28-r0
 fi
 
-if [[ -z "${JAVA8_DOWNLOAD" ]]
+if [[ -z "${JAVA8_DOWNLOAD}" ]]
 then
 	JAVA8_DOWNLOAD=https://github.com/ojdkbuild/contrib_jdk8u-ci/releases/download/jdk8u181-b13/jdk-8u181-ojdkbuild-linux-x64.zip
+fi
+
+if [[ -z "${JAVA_INSTALL_VERSION}" ]]
+then
+	JAVA_INSTALL_VERSION=jdk-8u181-ojdkbuild-linux-x64
 fi
 
 PYTHON=/opt/python27/bin/python
@@ -52,3 +57,5 @@ echo "export LANG=C.UTF-8" > /etc/profile.d/locale.sh
 /usr/glibc-compat/sbin/ldconfig /lib /usr/glibc-compat/lib
 
 echo 'hosts: files mdns4_minimal [NOTFOUND=return] dns mdns4' >> /etc/nsswitch.conf
+
+chmod +x $JAVA_INSTALL_DIR/$JAVA_INSTALL_VERSION/jre/bin/java
