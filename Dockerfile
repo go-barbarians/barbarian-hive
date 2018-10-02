@@ -38,17 +38,17 @@ COPY ./opt/barbarian/tez.tar.gz /opt/barbarian/tez.tar.gz
 
 # RUN wget -O /opt/barbarian/hive/lib/mariadb-jdbc.jar https://downloads.mariadb.com/Connectors/java/connector-java-2.3.0/mariadb-java-client-2.3.0.jar
 
-RUN echo "hadoop:!::0:::::" >> /etc/shadow
-RUN echo "hadoop:!::0:::::" >> /etc/shadow
-RUN echo "hadoop:x:1000:hadoop" >> /etc/group
-RUN echo "hadoop:x:1000:1000:hadoop:/home/hadoop:/bin/mksh" >> /etc/passwd
+RUN echo "$HIVE_USER:!::1000:::::" >> /etc/shadow
+RUN echo "$HIVE_USER:!::1000:::::" >> /etc/shadow
+RUN echo "$HIVE_USER:x:1000:$HIVE_USER" >> /etc/group
+RUN echo "$HIVE_USER:x:1000:1000:$HIVE_USER:/opt/barbarian:/bin/mksh" >> /etc/passwd
 
 RUN mkdir -p $HIVE_LOG_DIR \
     && mkdir -p /grid/0 \
     && mkdir -p /home/$HIVE_USER \
     && chown -R "$HIVE_USER" $HIVE_LOG_DIR \
     && chown -R "$HIVE_USER" /grid/0 \
-    && chown -R "$HIVE_USER" /home/$HIVE_USER \
+    && chown -R "$HIVE_USER" /opt/barbarian \
     && chgrp -R "$HIVE_USER" $HIVE_LOG_DIR \
     && chgrp -R "$HIVE_USER" /grid/0 \
     && chgrp -R "$HIVE_USER" /home/$HIVE_USER \
