@@ -29,6 +29,14 @@ steps:
       - cd tez; cp ../opt/barbarian/ignite/libs/ignite-shmem-1.0.0.jar .; cp ../opt/barbarian/ignite/libs/ignite-core-$IGNITE_BUILD_NUMBER.jar .; cp ../opt/barbarian/ignite/libs/ignite-hadoop/ignite-hadoop-$IGNITE_BUILD_NUMBER.jar .; cd ..
       - cd tez; tar -cf tez.tar .; gzip tez.tar; mv tez.tar.gz ..; cd ..
       - cp tez.tar.gz opt/barbarian
+
+      # prevent codefresh giving "no space left on device error"
+      - rm tez.tar.gz
+      - rm -rf tez
+      - rm -f hadoop-$HADOOP_BUILD_NUMBER.tar.gz
+      - rm -f apache-ignite-hadoop-$IGNITE_BUILD_NUMBER-bin.zip
+      - rm -f tez-$TEZ_BUILD_NUMBER-minimal.tar.gz
+      - rm -f apache-hive-$HIVE_BUILD_NUMBER-bin.tar.gz
     entry_point:
       - /bin/bash
 
