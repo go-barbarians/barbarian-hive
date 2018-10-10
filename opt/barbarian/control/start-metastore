@@ -16,21 +16,4 @@
 #
 # Usage: start-metastore
 # Starts a Hive Metastore.
-
-USER=`whoami`
-HOST=`hostname -s`
-DOMAIN=`hostname -d`
-
-function print_usage() {
-echo "\
-Usage: start-metastore
-Starts a Hive Metastore.
-"
-}
-
-CONTROL_DIR=`dirname $(readlink -f $0)`
-source $CONTROL_DIR/common-functions.sh
-
-COMMON_FUNCTIONS="common-functions.sh"
-
-exec $HIVE_HOME/bin/metastore
+exec $HIVE_HOME/bin/hive --service metastore "$@"

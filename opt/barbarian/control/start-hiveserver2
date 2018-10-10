@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 # Copyright 2018 Barbarians.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,21 +16,4 @@
 #
 # Usage: start-hiveserver2
 # Starts a Hiveserver2.
-
-USER=`whoami`
-HOST=`hostname -s`
-DOMAIN=`hostname -d`
-
-function print_usage() {
-echo "\
-Usage: start-hiveserver2
-Starts a Hiveserver2.
-"
-}
-
-CONTROL_DIR=`dirname $(readlink -f $0)`
-source $CONTROL_DIR/common-functions.sh
-
-COMMON_FUNCTIONS="common-functions.sh"
-
-exec $HIVE_HOME/bin/hiveserver2
+exec $HIVE_HOME/bin/hiveserver2 "$@"
