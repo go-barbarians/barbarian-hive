@@ -15,8 +15,8 @@ steps:
       - aws s3 cp s3://mvn.barbarians.io/apache-ignite-hadoop-$IGNITE_BUILD_NUMBER-bin.zip .
       - aws s3 cp s3://mvn.barbarians.io/hadoop-$HADOOP_BUILD_NUMBER.tar.gz .
       - tar -xzf apache-hive-$HIVE_BUILD_NUMBER-bin.tar.gz
-      - mkdir -p tez
-      - cd tez; tar -xzf ../tez-$TEZ_BUILD_NUMBER-minimal.tar.gz; cd ..
+      - mkdir -p opt/barbarian/tez
+      - pushd opt/barbarian/tez; tar -xzf ../../../tez-$TEZ_BUILD_NUMBER-minimal.tar.gz; popd
       - tar -xzf hadoop-$HADOOP_BUILD_NUMBER.tar.gz
       - unzip -o apache-ignite-hadoop-$IGNITE_BUILD_NUMBER-bin.zip
       - mkdir -p opt/barbarian
@@ -26,11 +26,10 @@ steps:
       - cp -R apache-hive-$HIVE_BUILD_NUMBER-bin/* opt/barbarian/hive
       - cp -R hadoop-$HADOOP_BUILD_NUMBER/* opt/barbarian/hadoop
       - cp -R apache-ignite-hadoop-$IGNITE_BUILD_NUMBER-bin/* opt/barbarian/ignite
-      - cd tez; cp ../opt/barbarian/ignite/libs/ignite-shmem-1.0.0.jar .; cp ../opt/barbarian/ignite/libs/ignite-core-$IGNITE_BUILD_NUMBER.jar .; cp ../opt/barbarian/ignite/libs/ignite-hadoop/ignite-hadoop-$IGNITE_BUILD_NUMBER.jar .; cd ..
-      - cd tez; tar -cf tez.tar .; gzip tez.tar; mv tez.tar.gz ..; cd ..
+      - pushd opt/barbarian/tez; cp ../ignite/libs/ignite-shmem-1.0.0.jar .; cp ../ignite/libs/ignite-core-$IGNITE_BUILD_NUMBER.jar .; cp ../ignite/libs/ignite-hadoop/ignite-hadoop-$IGNITE_BUILD_NUMBER.jar .; popd
+      - pushd opt/barbarian/tez; tar -cf tez.tar .; gzip tez.tar; mv tez.tar.gz ../../..; popd
       - cp tez.tar.gz opt/barbarian
 
-      # prevent codefresh giving "no space left on device error"
       - rm tez.tar.gz
       - rm -rf tez
       - rm -f hadoop-$HADOOP_BUILD_NUMBER.tar.gz
