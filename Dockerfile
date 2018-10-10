@@ -22,6 +22,8 @@ COPY ./opt/barbarian/tez.tar.gz /opt/barbarian/tez.tar.gz
 RUN mkdir -p $HIVE_LOG_DIR \
     && chown -R "$HIVE_USER" $HIVE_LOG_DIR \
     && chgrp -R "$HIVE_USER" $HIVE_LOG_DIR \
+    && chown -R "$HIVE_USER" /opt/barbarian/hive \
+    && chgrp -R "$HIVE_USER" /opt/barbarian/hive \
     && ln -s /opt/barbarian/hive/conf /etc/hive
 
 
