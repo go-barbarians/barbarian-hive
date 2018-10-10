@@ -16,7 +16,7 @@ steps:
       - aws s3 cp s3://mvn.barbarians.io/hadoop-$HADOOP_BUILD_NUMBER.tar.gz .
       - tar -xzf apache-hive-$HIVE_BUILD_NUMBER-bin.tar.gz
       - mkdir -p opt/barbarian/tez
-      - pushd opt/barbarian/tez; tar -xzf ../../../tez-$TEZ_BUILD_NUMBER-minimal.tar.gz; popd
+      - cd opt/barbarian/tez; tar -xzf ../../../tez-$TEZ_BUILD_NUMBER-minimal.tar.gz; cd ../../..
       - tar -xzf hadoop-$HADOOP_BUILD_NUMBER.tar.gz
       - unzip -o apache-ignite-hadoop-$IGNITE_BUILD_NUMBER-bin.zip
       - mkdir -p opt/barbarian
@@ -26,8 +26,8 @@ steps:
       - cp -R apache-hive-$HIVE_BUILD_NUMBER-bin/* opt/barbarian/hive
       - cp -R hadoop-$HADOOP_BUILD_NUMBER/* opt/barbarian/hadoop
       - cp -R apache-ignite-hadoop-$IGNITE_BUILD_NUMBER-bin/* opt/barbarian/ignite
-      - pushd opt/barbarian/tez; cp ../ignite/libs/ignite-shmem-1.0.0.jar .; cp ../ignite/libs/ignite-core-$IGNITE_BUILD_NUMBER.jar .; cp ../ignite/libs/ignite-hadoop/ignite-hadoop-$IGNITE_BUILD_NUMBER.jar .; popd
-      - pushd opt/barbarian/tez; tar -cf tez.tar .; gzip tez.tar; mv tez.tar.gz ../../..; popd
+      - cd opt/barbarian/tez; cp ../ignite/libs/ignite-shmem-1.0.0.jar .; cp ../ignite/libs/ignite-core-$IGNITE_BUILD_NUMBER.jar .; cp ../ignite/libs/ignite-hadoop/ignite-hadoop-$IGNITE_BUILD_NUMBER.jar .; cd ../../..
+      - cd opt/barbarian/tez; tar -cf tez.tar .; gzip tez.tar; mv tez.tar.gz ../../..; cd ../../..
       - cp tez.tar.gz opt/barbarian
 
       - rm tez.tar.gz
