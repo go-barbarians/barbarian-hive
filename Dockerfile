@@ -1,4 +1,4 @@
-FROM dockerbarbarians/barbarian-base:unstable
+FROM dockerbarbarians/barbarian-base:latest
 
 ENV HIVE_USER=hadoop \
     HIVE_LOG_DIR=/var/log/hive \
@@ -9,7 +9,8 @@ ENV HIVE_USER=hadoop \
     SLIDER_CONF_DIR=/opt/barbarian/slider/conf \
     SLIDER_HOME=/opt/barbarian/slider \
     CONTROL_HOME=/opt/barbarian/control \
-    CLASSPATH=$HADOOP_CLASSPATH:/opt/barbarian/hive/lib/*:/opt/barbarian/tez/*:/opt/barbarian/tez/lib/*
+    CLASSPATH=$HADOOP_CLASSPATH:/opt/barbarian/hive/lib/*:/opt/barbarian/tez/*:/opt/barbarian/tez/lib/* \
+    LLAP_DAEMON_USER_CLASSPATH=/opt/barbarian/hadoop/share/hadoop/yarn/*:/opt/barbarian/hadoop/share/hadoop/yarn/lib/*
 
 COPY ./opt/barbarian/control /opt/barbarian/control
 COPY ./opt/barbarian/hive /opt/barbarian/hive
